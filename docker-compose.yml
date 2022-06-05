@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    ports:
+      - "8083:3000"
+    volumes:
+      - ./:/usr/src/app
+  redis:
+    image: "redis:7.0.0-alpine"
+    volumes:
+      - ./docker/redis:/data
+  db:
+    ports:
+      - "3309:3306"
+    env_file:
+      - .env.development.local
+    image: "mysql:8.0.29"
+    restart: always
+    volumes:
+      - ./docker/db:/var/lib/mysql
